@@ -1,4 +1,4 @@
-package javacode_dk.springmvc_practice.DTO;
+package javacode_dk.springmvc_practice.DTO.MVC1;
 
 public class UserViews {
 

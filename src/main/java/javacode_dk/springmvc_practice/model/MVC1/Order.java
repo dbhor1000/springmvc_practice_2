@@ -1,9 +1,9 @@
-package javacode_dk.springmvc_practice.model;
+package javacode_dk.springmvc_practice.model.MVC1;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import javacode_dk.springmvc_practice.DTO.UserViews;
+import javacode_dk.springmvc_practice.DTO.MVC1.UserViews;
 import lombok.*;
 
 import java.math.BigDecimal;

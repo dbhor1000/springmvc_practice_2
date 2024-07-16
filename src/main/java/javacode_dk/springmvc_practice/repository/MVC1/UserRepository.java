@@ -1,6 +1,6 @@
-package javacode_dk.springmvc_practice.repository;
+package javacode_dk.springmvc_practice.repository.MVC1;
 
-import javacode_dk.springmvc_practice.model.UserEntity;
+import javacode_dk.springmvc_practice.model.MVC1.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

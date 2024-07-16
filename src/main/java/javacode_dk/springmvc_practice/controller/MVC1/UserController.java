@@ -1,9 +1,9 @@
-package javacode_dk.springmvc_practice.controller;
+package javacode_dk.springmvc_practice.controller.MVC1;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import javacode_dk.springmvc_practice.DTO.UserViews;
-import javacode_dk.springmvc_practice.model.UserEntity;
-import javacode_dk.springmvc_practice.service.UserService;
+import javacode_dk.springmvc_practice.DTO.MVC1.UserViews;
+import javacode_dk.springmvc_practice.model.MVC1.UserEntity;
+import javacode_dk.springmvc_practice.service.MVC1.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,11 +36,11 @@ public class UserController {
         return ResponseEntity.ok(allUsers);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/{bookName}")
     @JsonView(UserViews.UserDtoWithOrders.class)
-    public ResponseEntity<?> fetchOneUser(@PathVariable String email) {
+    public ResponseEntity<?> fetchOneUser(@PathVariable String bookName) {
 
-        UserEntity user = userService.getUserByEmail(email);
+        UserEntity user = userService.getUserByEmail(bookName);
         if(user == null){
             return ResponseEntity.badRequest().build();
         }
@@ -58,17 +58,17 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PatchMapping("/{email}")
+    @PatchMapping("/{bookName}")
     @JsonView(UserViews.UserDtoWithoutOrders.class)
-    public ResponseEntity<UserEntity> newUser(@PathVariable String email, @RequestBody @JsonView(UserViews.UserDtoNameAndAddress.class) UserEntity user) {
+    public ResponseEntity<UserEntity> newUser(@PathVariable String bookName, @RequestBody @JsonView(UserViews.UserDtoNameAndAddress.class) UserEntity user) {
 
-        return ResponseEntity.ok(userService.updateUser(email, user));
+        return ResponseEntity.ok(userService.updateUser(bookName, user));
     }
 
-    @DeleteMapping("/{email}")
-    public ResponseEntity<?> deleteUser(@PathVariable String email) {
+    @DeleteMapping("/{bookName}")
+    public ResponseEntity<?> deleteUser(@PathVariable String bookName) {
 
-        if (userService.deleteUserByEmail(email)) {
+        if (userService.deleteUserByEmail(bookName)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

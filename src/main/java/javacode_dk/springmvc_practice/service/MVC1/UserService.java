@@ -1,6 +1,6 @@
-package javacode_dk.springmvc_practice.service;
+package javacode_dk.springmvc_practice.service.MVC1;
 
-import javacode_dk.springmvc_practice.model.UserEntity;
+import javacode_dk.springmvc_practice.model.MVC1.UserEntity;
 import java.util.List;
 
 public interface UserService {

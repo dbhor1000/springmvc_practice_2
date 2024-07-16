@@ -2,10 +2,10 @@ package javacode_dk.springmvc_practice.DTOTests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import javacode_dk.springmvc_practice.DTO.UserViews;
-import javacode_dk.springmvc_practice.model.Order;
-import javacode_dk.springmvc_practice.model.OrderStatus;
-import javacode_dk.springmvc_practice.model.UserEntity;
+import javacode_dk.springmvc_practice.DTO.MVC1.UserViews;
+import javacode_dk.springmvc_practice.model.MVC1.Order;
+import javacode_dk.springmvc_practice.model.MVC1.OrderStatus;
+import javacode_dk.springmvc_practice.model.MVC1.UserEntity;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

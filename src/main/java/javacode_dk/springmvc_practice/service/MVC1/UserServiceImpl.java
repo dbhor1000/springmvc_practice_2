@@ -1,7 +1,7 @@
-package javacode_dk.springmvc_practice.service;
+package javacode_dk.springmvc_practice.service.MVC1;
 
-import javacode_dk.springmvc_practice.model.UserEntity;
-import javacode_dk.springmvc_practice.repository.UserRepository;
+import javacode_dk.springmvc_practice.model.MVC1.UserEntity;
+import javacode_dk.springmvc_practice.repository.MVC1.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

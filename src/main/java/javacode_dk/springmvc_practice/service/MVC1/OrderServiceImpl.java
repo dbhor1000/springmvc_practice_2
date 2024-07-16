@@ -1,4 +1,4 @@
-package javacode_dk.springmvc_practice.service;
+package javacode_dk.springmvc_practice.service.MVC1;
 
 import org.springframework.stereotype.Service;
 
