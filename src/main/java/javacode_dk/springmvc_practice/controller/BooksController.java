@@ -5,11 +5,13 @@ import javacode_dk.springmvc_practice.DTO.BookViews;
 import javacode_dk.springmvc_practice.DTO.UpdateBookDTO;
 import javacode_dk.springmvc_practice.model.BookEntity;
 import javacode_dk.springmvc_practice.service.books.BookService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.ListIterator;
 
 @RestController
 @Validated
@@ -30,10 +32,12 @@ public class BooksController {
 
     @GetMapping
     @JsonView(BookViews.BookDtoWithAuthorNameOnlyWithNotes.class)
-    public ResponseEntity<List<BookEntity>> fetchAllBooks() {
-
-        List<BookEntity> allUsers = bookService.getBooksFromDatabase();
-        return ResponseEntity.ok(allUsers);
+    public ResponseEntity<List<BookEntity>> fetchAllBooks(@RequestParam int page, @RequestParam int size) {
+        if (page < 0 || size <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        Page<BookEntity> allBooks = bookService.getBooksFromDatabase(page, size);
+        return ResponseEntity.ok((allBooks.getContent()));
     }
 
     @GetMapping("/getOneBook")

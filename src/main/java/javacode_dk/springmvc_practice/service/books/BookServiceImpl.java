@@ -5,6 +5,9 @@ import javacode_dk.springmvc_practice.model.AuthorEntity;
 import javacode_dk.springmvc_practice.model.BookEntity;
 import javacode_dk.springmvc_practice.repository.AuthorRepository;
 import javacode_dk.springmvc_practice.repository.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +25,9 @@ public class BookServiceImpl implements BookService {
         this.authorRepository = authorRepository;
     }
 
-    public List<BookEntity> getBooksFromDatabase() {
-        List<BookEntity> fetchAllBooksFromDatabase = bookRepository.findAll();
-
-        return fetchAllBooksFromDatabase;
+    public Page<BookEntity> getBooksFromDatabase(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return bookRepository.findAll(pageable);
     }
 
     public BookEntity getBookByNameAndYearAndAuthor(String bookName, BigDecimal yearWritten, String author) {
