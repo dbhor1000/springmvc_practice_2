@@ -1,11 +1,14 @@
 package javacode_dk.springmvc_practice.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import javacode_dk.springmvc_practice.DTO.BookDtoWithAuthorNameOnlyNoNotes;
+import javacode_dk.springmvc_practice.DTO.BookDtoWithAuthorNameOnlyWithNotes;
 import javacode_dk.springmvc_practice.DTO.BookViews;
 import javacode_dk.springmvc_practice.DTO.UpdateBookDTO;
 import javacode_dk.springmvc_practice.model.BookEntity;
 import javacode_dk.springmvc_practice.service.books.BookService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,35 +35,27 @@ public class BooksController {
 
     @GetMapping
     @JsonView(BookViews.BookDtoWithAuthorNameOnlyWithNotes.class)
-    public ResponseEntity<List<BookEntity>> fetchAllBooks(@RequestParam int page, @RequestParam int size) {
-        if (page < 0 || size <= 0) {
+    public ResponseEntity<List<BookEntity>> fetchAllBooks(Pageable pageable) {
+        if (pageable.getPageNumber() < 0 || pageable.getPageSize() <= 0) {
             return ResponseEntity.badRequest().build();
         }
-        Page<BookEntity> allBooks = bookService.getBooksFromDatabase(page, size);
+        Page<BookEntity> allBooks = bookService.getBooksFromDatabase(pageable);
         return ResponseEntity.ok((allBooks.getContent()));
     }
 
     @GetMapping("/getOneBook")
     @JsonView(BookViews.BookDtoWithAuthorExtended.class)
-    public ResponseEntity<?> fetchOneBook(@RequestBody @JsonView(BookViews.BookDtoWithAuthorNameOnlyNoNotes.class) BookEntity bookEntity) {
+    public ResponseEntity<?> fetchOneBook(@RequestBody BookDtoWithAuthorNameOnlyNoNotes bookDtoWithAuthorNameOnlyNoNotes) {
 
-        BookEntity booksFound = bookService.getBookByNameAndYearAndAuthor(bookEntity.getBookName(), bookEntity.getYearWritten(), bookEntity.getAuthorNameSimple());
-        if(booksFound == null){
-            return ResponseEntity.badRequest().build();
-        }
+        BookEntity booksFound = bookService.getBookByNameAndYearAndAuthor(bookDtoWithAuthorNameOnlyNoNotes.getBookName(), bookDtoWithAuthorNameOnlyNoNotes.getYearWritten(), bookDtoWithAuthorNameOnlyNoNotes.getAuthorNameSimple());
         return ResponseEntity.ok(booksFound);
     }
 
     @PostMapping
     @JsonView(BookViews.BookDtoWithAuthorExtended.class)
-    public ResponseEntity<BookEntity> newBook(@RequestBody @JsonView(BookViews.BookDtoWithAuthorNameOnlyWithNotes.class) BookEntity newBook) {
+    public ResponseEntity<BookEntity> newBook(@RequestBody BookDtoWithAuthorNameOnlyWithNotes bookDtoWithAuthorNameOnlyWithNotes) {
 
-        BookEntity createdBook = bookService.createBook(newBook);
-
-        if(createdBook == null) {
-            return ResponseEntity.unprocessableEntity().build();
-        }
-
+        BookEntity createdBook = bookService.createBook(bookDtoWithAuthorNameOnlyWithNotes);
         return ResponseEntity.ok(createdBook);
     }
 
@@ -69,20 +64,14 @@ public class BooksController {
     public ResponseEntity<BookEntity> updateBook(@RequestBody UpdateBookDTO updateBookDTO) {
 
         BookEntity updatedBook = bookService.updateBook(updateBookDTO);
-
-        if(updatedBook == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
         return ResponseEntity.ok(updatedBook);
     }
 
     @DeleteMapping()
-    public ResponseEntity<?> deleteBook(@RequestBody @JsonView(BookViews.BookDtoWithAuthorNameOnlyNoNotes.class) BookEntity bookEntity) {
+    public ResponseEntity<?> deleteBook(@RequestBody BookDtoWithAuthorNameOnlyNoNotes bookDtoWithAuthorNameOnlyNoNotes) {
 
-        if (bookService.deleteBookByName(bookEntity)) {
+        bookService.deleteBookByName(bookDtoWithAuthorNameOnlyNoNotes);
             return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+
     }
 }
